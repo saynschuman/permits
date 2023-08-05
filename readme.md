@@ -1,4 +1,4 @@
-## report on the developed functionality
+## A brief report on the developed functionality
 
 1. A cloud function has been created that iterates over the zipCodes array, sending a request for each code.
 2. The requests are performed sequentially (that is, each subsequent request waits for the current one to finish before starting).
