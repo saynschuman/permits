@@ -76,4 +76,4 @@ const fetchData = async () => {
   }
 };
 
-exports.fetchPermits = scheduler.onSchedule("* * * * *", fetchData);
+exports.fetchPermits = scheduler.onSchedule("0 0 * * *", fetchData);
