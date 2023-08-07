@@ -85,7 +85,55 @@ const fetchDataForZip = async (zipcode) => {
   }
 };
 
+const deleteCollection = async (collectionPath) => {
+  const collection = admin.firestore().collection(collectionPath);
+  const query = collection.limit(500);
+
+  return new Promise((resolve, reject) => {
+    const deleteQueryBatch = (query, resolve, reject) => {
+      query
+        .get()
+        .then((snapshot) => {
+          if (snapshot.size == 0) {
+            logger.log(`Collection ${collectionPath} is empty.`);
+            return 0;
+          }
+
+          const batch = admin.firestore().batch();
+          snapshot.docs.forEach((doc) => {
+            logger.log(`Deleting document with ID: ${doc.id}`);
+            batch.delete(doc.ref);
+          });
+
+          return batch.commit().then(() => {
+            logger.log(`Deleted ${snapshot.size} documents.`);
+            return snapshot.size;
+          });
+        })
+        .then((numDeleted) => {
+          if (numDeleted === 0) {
+            resolve();
+            return;
+          }
+
+          process.nextTick(() => {
+            deleteQueryBatch(query, resolve, reject);
+          });
+        })
+        .catch(reject);
+    };
+
+    deleteQueryBatch(query, resolve, reject);
+  });
+};
+
+const clearData = async () => {
+  const tasks = zipCodes.map(deleteCollection);
+  await Promise.all(tasks);
+};
+
 const fetchData = async () => {
+  await clearData();
   const tasks = zipCodes.map(fetchDataForZip);
   await Promise.all(tasks);
 };
