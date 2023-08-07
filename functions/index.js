@@ -1,7 +1,6 @@
 const { scheduler, logger } = require("firebase-functions/v2");
 const admin = require("firebase-admin");
 const fetch = require("node-fetch");
-const { Transform } = require("stream");
 
 const zipCodes = [
   "19102",
@@ -56,35 +55,28 @@ const zipCodes = [
 // Initialize the Firebase app
 admin.initializeApp();
 
-const transformStream = new Transform({
-  transform(chunk, encoding, callback) {
-    const data = JSON.parse(chunk.toString());
-
-    // Преобразовываем строки в объекты
-    const transformedRows = data.rows.reduce((acc, cur) => {
-      acc[cur.cartodb_id] = cur;
-      return acc;
-    }, {});
-
-    this.push(JSON.stringify(transformedRows));
-    callback();
-  },
-});
-
 const fetchData = async () => {
   for (let zipcode of zipCodes) {
     try {
       const url = `https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20permits%20WHERE%20zip%20LIKE%20%27${zipcode}%25%27%20`;
 
       const response = await fetch(url);
+      const data = await response.json();
 
-      const docRef = admin.firestore().collection("permits").doc(zipcode);
+      const docRef = admin.firestore().collection("permits");
 
-      response.body.pipe(transformStream).on("data", async (chunk) => {
-        await docRef.set({
-          rows: JSON.parse(chunk.toString()),
-          time: new Date().toISOString(), // обновляем время на текущее
-        });
+      // Transform the rows array into an object with the objectid as the key
+      const transformedRows = data.rows.reduce((acc, cur) => {
+        acc[cur.cartodb_id] = cur;
+        return acc;
+      }, {});
+
+      // Save the transformed data to Firestore
+      await docRef.doc(zipcode).set({
+        rows: transformedRows,
+        time: data.time,
+        fields: data.fields,
+        total_rows: data.total_rows,
       });
 
       logger.log(
