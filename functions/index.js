@@ -47,44 +47,47 @@ const zipCodes = [
   "19112",
   "19145",
   "19142",
-  "19153"
+  "19153",
 ];
 
 // Initialize the Firebase app
 admin.initializeApp();
 
-const fetchData = async () => {
-  for (let zipcode of zipCodes) {
-    try {
-      const url = `https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20permits%20WHERE%20zip%20LIKE%20%27${zipcode}%25%27%20`;
+const fetchDataForZip = async (zipcode) => {
+  try {
+    const url = `https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20permits%20WHERE%20zip%20LIKE%20%27${zipcode}%25%27%20`;
 
-      const response = await fetch(url);
-      const data = await response.json();
+    const response = await fetch(url);
+    const data = await response.json();
 
-      const chunkSize = 500;
-      for (let i = 0; i < data.rows.length; i += chunkSize) {
-        const batch = admin.firestore().batch();
+    const chunkSize = 500;
+    for (let i = 0; i < data.rows.length; i += chunkSize) {
+      const batch = admin.firestore().batch();
 
-        const chunk = data.rows.slice(i, i + chunkSize);
+      const chunk = data.rows.slice(i, i + chunkSize);
 
-        chunk.forEach((row) => {
-          const docRef = admin
-            .firestore()
-            .collection(zipcode)
-            .doc(row.cartodb_id.toString());
-          batch.set(docRef, row);
-        });
+      chunk.forEach((row) => {
+        const docRef = admin
+          .firestore()
+          .collection(zipcode)
+          .doc(row.cartodb_id.toString());
+        batch.set(docRef, row);
+      });
 
-        await batch.commit();
-      }
-
-      logger.log(
-        `Data fetch and save to Firestore completed for zipcode: ${zipcode}`
-      );
-    } catch (error) {
-      logger.error("An error occurred: ", error);
+      await batch.commit();
     }
+
+    logger.log(
+      `Data fetch and save to Firestore completed for zipcode: ${zipcode}`
+    );
+  } catch (error) {
+    logger.error("An error occurred: ", error);
   }
+};
+
+const fetchData = async () => {
+  const tasks = zipCodes.map(fetchDataForZip);
+  await Promise.all(tasks);
 };
 
 // Export a Cloud Function that runs on a schedule
