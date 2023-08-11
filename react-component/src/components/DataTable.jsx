@@ -80,7 +80,6 @@ export const DataTable = ({ data }) => {
 
   return (
     <MantineReactTable
-      className="wrap-text-table"
       columns={columns}
       enableColumnActions={false}
       data={data}
