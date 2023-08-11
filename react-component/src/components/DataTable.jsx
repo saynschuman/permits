@@ -34,6 +34,11 @@ export const DataTable = ({ data }) => {
           const value = cell.getValue();
           return moment(value).format('MM/DD/YYYY');
         },
+        sortMethod: (a, b) => {
+          const timestampA = moment(a).valueOf();
+          const timestampB = moment(b).valueOf();
+          return timestampA - timestampB;
+        },
       },
       {
         accessorKey: 'address',
