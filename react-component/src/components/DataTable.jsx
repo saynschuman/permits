@@ -12,13 +12,17 @@ export const DataTable = ({ data }) => {
         size: 50,
         Cell: ({ cell }) => {
           const value = cell.getValue();
-          return moment(value).format('LL');
+          return moment(value).format('MM/DD/YYYY');
         },
       },
       {
         accessorKey: 'address',
         header: 'Address',
         size: 50,
+        Cell: ({ cell }) => {
+          const value = cell.getValue();
+          return `${value} ${cell.row.original.zip}`;
+        },
       },
       {
         accessorKey: 'zip',
