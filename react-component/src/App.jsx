@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { DataTable } from './components/DataTable';
 import { firestore } from './config';
 import { collection, query, where, getDocs } from 'firebase/firestore';
+import "./style.css"
 
 const getPermitsByZipCodeAndDateRange = async (zipCode, startDate, endDate) => {
   try {
@@ -45,7 +46,7 @@ export default function DashboardLayout() {
 
   if (isNaN(daysBackInt)) {
     console.error('Invalid daysBack value:', daysBack);
-    return <>no params in url</>;
+    return <DataTable data={[]} />
   }
 
   const startDate = new Date(Date.now() - daysBackInt * 24 * 60 * 60 * 1000).toISOString();
