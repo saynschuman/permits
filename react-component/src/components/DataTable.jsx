@@ -2,6 +2,7 @@ import { MantineReactTable } from 'mantine-react-table';
 import { useMemo, useState, useEffect } from 'react';
 import moment from 'moment';
 import { Select } from '@mantine/core';
+import Sliced from './Sliced';
 moment.locale('ru'); // Устанавливаем локализацию на русский язык
 
 export const DataTable = ({ data }) => {
@@ -61,7 +62,7 @@ export const DataTable = ({ data }) => {
       {
         accessorKey: 'permittype',
         header: 'Permit type',
-        size: 50,
+        size: 350,
         Cell: ({ cell }) => {
           const value = cell.getValue();
           return `${value}, ${cell.row.original.permitdescription}`;
@@ -75,7 +76,7 @@ export const DataTable = ({ data }) => {
       {
         accessorKey: 'contractorname',
         header: 'Contractor',
-        size: 50,
+        size: 350,
         Cell: ({ cell }) => {
           const value = cell.getValue();
           return `${value}, ${cell.row.original.contractoraddress1}`;
@@ -89,19 +90,25 @@ export const DataTable = ({ data }) => {
       {
         accessorKey: 'typeofwork',
         header: 'Type of work',
-        size: 50,
+        size: 200,
         Cell: ({ cell }) => {
           const value = cell.getValue();
-          return `${value}, \n \n ${cell.row.original.approvedscopeofwork?.slice(0, 25)}...`;
+          return (
+            <Sliced
+              text={`${value}, \n \n ${cell.row.original.approvedscopeofwork}`}
+              maxLength={50}
+            />
+          );
         },
       },
       {
         accessorKey: 'approvedscopeofwork',
         header: 'Approved Scope of Work',
-        size: 50,
+        size: 200,
         Cell: ({ cell }) => {
           const value = cell.getValue();
-          return <span>{value?.length < 50 ? value : `${value.slice(0, 50)}...`}</span>;
+
+          return <Sliced text={value} maxLength={50} />;
         },
       },
       {
