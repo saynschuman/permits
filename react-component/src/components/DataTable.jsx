@@ -1,9 +1,28 @@
 import { MantineReactTable } from 'mantine-react-table';
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import moment from 'moment';
+import { Select } from '@mantine/core';
 moment.locale('ru'); // Устанавливаем локализацию на русский язык
 
 export const DataTable = ({ data }) => {
+  const [filteredData, setFilteredData] = useState(data);
+  const [propertyType, setPropertyType] = useState('ALL');
+  const [statusFilter, setStatusFilter] = useState('ALL');
+
+  useEffect(() => {
+    let result = [...data];
+
+    if (propertyType !== 'ALL') {
+      result = result.filter((item) => item.commercialorresidential === propertyType);
+    }
+
+    if (statusFilter !== 'ALL') {
+      result = result.filter((item) => item.status === statusFilter);
+    }
+
+    setFilteredData(result);
+  }, [data, propertyType, statusFilter]);
+
   const columns = useMemo(
     () => [
       {
@@ -95,13 +114,53 @@ export const DataTable = ({ data }) => {
   );
 
   return (
-    <MantineReactTable
-      columns={columns}
-      enableColumnActions={false}
-      data={data}
-      enablePagination={false}
-      initialState={{ density: 'xs' }}
-      enableDensityToggle={false}
-    />
+    <div
+      style={{
+        padding: 20,
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          marginBottom: '20px',
+        }}
+      >
+        <div style={{ maxWidth: '300px' }}>
+          <Select
+            style={{ marginRight: 10 }}
+            label="Filter by Property Type"
+            data={[
+              { value: 'ALL', label: 'All' },
+              { value: 'RESIDENTIAL', label: 'Residential' },
+              { value: 'COMMERCIAL', label: 'Commercial' },
+            ]}
+            value={propertyType}
+            onChange={(value) => setPropertyType(value)}
+            fullWidth
+          />
+        </div>
+        <div style={{ maxWidth: '300px' }}>
+          <Select
+            label="Filter by Status"
+            data={[
+              { value: 'ALL', label: 'All' },
+              { value: 'ISSUED', label: 'Issued' },
+              { value: 'COMPLETED', label: 'Completed' },
+            ]}
+            value={statusFilter}
+            onChange={(value) => setStatusFilter(value)}
+            fullWidth
+          />
+        </div>
+      </div>
+      <MantineReactTable
+        columns={columns}
+        enableColumnActions={false}
+        data={filteredData}
+        enablePagination={false}
+        initialState={{ density: 'xs' }}
+        enableDensityToggle={false}
+      />
+    </div>
   );
 };
