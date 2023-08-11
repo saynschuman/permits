@@ -1,5 +1,7 @@
 import { MantineReactTable } from 'mantine-react-table';
 import { useMemo } from 'react';
+import moment from 'moment';
+moment.locale('ru'); // Устанавливаем локализацию на русский язык
 
 export const DataTable = ({ data }) => {
   const columns = useMemo(
@@ -10,16 +12,7 @@ export const DataTable = ({ data }) => {
         size: 50,
         Cell: ({ cell }) => {
           const value = cell.getValue();
-          const dateObj = new Date(value);
-
-          const readableDate = dateObj.toLocaleDateString('en-EN', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          });
-
-          
-          return readableDate;
+          return moment(value).format('LL');
         },
       },
       {
