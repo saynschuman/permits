@@ -43,6 +43,10 @@ export const DataTable = ({ data }) => {
         accessorKey: 'permittype',
         header: 'Permit type',
         size: 50,
+        Cell: ({ cell }) => {
+          const value = cell.getValue();
+          return `${value}, ${cell.row.original.permitdescription}`;
+        },
       },
       {
         accessorKey: 'permitdescription',
@@ -53,6 +57,10 @@ export const DataTable = ({ data }) => {
         accessorKey: 'contractorname',
         header: 'Contractor',
         size: 50,
+        Cell: ({ cell }) => {
+          const value = cell.getValue();
+          return `${value}, ${cell.row.original.contractoraddress1}`;
+        },
       },
       {
         accessorKey: 'contractoraddress1',
@@ -63,6 +71,10 @@ export const DataTable = ({ data }) => {
         accessorKey: 'typeofwork',
         header: 'Type of work',
         size: 50,
+        Cell: ({ cell }) => {
+          const value = cell.getValue();
+          return `${value}, \n \n ${cell.row.original.approvedscopeofwork?.slice(0, 25)}...`;
+        },
       },
       {
         accessorKey: 'approvedscopeofwork',
