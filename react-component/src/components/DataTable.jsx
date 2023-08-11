@@ -8,6 +8,19 @@ export const DataTable = ({ data }) => {
         accessorKey: 'permitissuedate',
         header: 'Date issued',
         size: 50,
+        Cell: ({ cell }) => {
+          const value = cell.getValue();
+          const dateObj = new Date(value);
+
+          const readableDate = dateObj.toLocaleDateString('en-EN', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          });
+
+          
+          return readableDate;
+        },
       },
       {
         accessorKey: 'address',
@@ -58,6 +71,10 @@ export const DataTable = ({ data }) => {
         accessorKey: 'approvedscopeofwork',
         header: 'Approved Scope of Work',
         size: 50,
+        Cell: ({ cell }) => {
+          const value = cell.getValue();
+          return <span>{value?.length < 50 ? value : `${value.slice(0, 50)}...`}</span>;
+        },
       },
       {
         accessorKey: 'status',

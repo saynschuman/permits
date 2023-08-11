@@ -45,7 +45,7 @@ export default function DashboardLayout() {
 
   if (isNaN(daysBackInt)) {
     console.error('Invalid daysBack value:', daysBack);
-    return <>hello</>;
+    return <>no params in url</>;
   }
 
   const startDate = new Date(Date.now() - daysBackInt * 24 * 60 * 60 * 1000).toISOString();
