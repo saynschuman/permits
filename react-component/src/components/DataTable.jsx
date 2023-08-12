@@ -29,7 +29,6 @@ export const DataTable = ({ data }) => {
       {
         accessorKey: 'permitissuedate',
         header: 'Date issued',
-        size: 50,
         Cell: ({ cell }) => {
           const value = cell.getValue();
           return moment(value).format('MM/DD/YYYY');
@@ -43,7 +42,6 @@ export const DataTable = ({ data }) => {
       {
         accessorKey: 'address',
         header: 'Address',
-        size: 50,
         Cell: ({ cell }) => {
           const value = cell.getValue();
           return `${value} ${cell.row.original.zip}`;
@@ -52,22 +50,18 @@ export const DataTable = ({ data }) => {
       {
         accessorKey: 'zip',
         header: 'Zip',
-        size: 50,
       },
       {
         accessorKey: 'commercialorresidential',
         header: 'Property Type',
-        size: 50,
       },
       {
         accessorKey: 'opa_owner',
         header: 'Owner',
-        size: 50,
       },
       {
         accessorKey: 'permittype',
         header: 'Permit type',
-        size: 350,
         Cell: ({ cell }) => {
           const value = cell.getValue();
           return `${value}, ${cell.row.original.permitdescription}`;
@@ -76,12 +70,10 @@ export const DataTable = ({ data }) => {
       {
         accessorKey: 'permitdescription',
         header: 'Description of work',
-        size: 50,
       },
       {
         accessorKey: 'contractorname',
         header: 'Contractor',
-        size: 350,
         Cell: ({ cell }) => {
           const value = cell.getValue();
           return `${value}, ${cell.row.original.contractoraddress1}`;
@@ -90,12 +82,10 @@ export const DataTable = ({ data }) => {
       {
         accessorKey: 'contractoraddress1',
         header: 'Contractor Address',
-        size: 50,
       },
       {
         accessorKey: 'typeofwork',
         header: 'Type of work',
-        size: 200,
         Cell: ({ cell }) => {
           const value = cell.getValue();
           return (
@@ -109,7 +99,6 @@ export const DataTable = ({ data }) => {
       {
         accessorKey: 'approvedscopeofwork',
         header: 'Approved Scope of Work',
-        size: 200,
         Cell: ({ cell }) => {
           const value = cell.getValue();
 
@@ -119,7 +108,6 @@ export const DataTable = ({ data }) => {
       {
         accessorKey: 'status',
         header: 'Status',
-        size: 50,
       },
     ],
     []
@@ -165,6 +153,7 @@ export const DataTable = ({ data }) => {
       </div>
       <MantineReactTable
         columns={columns}
+        columnResizeMode="onEnd"
         enableColumnActions={false}
         data={filteredData}
         enablePagination={false}
