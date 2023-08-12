@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const Sliced = ({ text, maxLength }) => {
   const [expanded, setExpanded] = useState(false);
 
-  if (!text) return null;
+  if (!text) return "";
 
   if (text.length <= maxLength) {
     return <span>{text}</span>;
