@@ -148,7 +148,6 @@ export const DataTable = ({ data }) => {
             ]}
             value={propertyType}
             onChange={(value) => setPropertyType(value)}
-            fullWidth
           />
         </div>
         <div style={{ maxWidth: '300px' }}>
@@ -161,7 +160,6 @@ export const DataTable = ({ data }) => {
             ]}
             value={statusFilter}
             onChange={(value) => setStatusFilter(value)}
-            fullWidth
           />
         </div>
       </div>
