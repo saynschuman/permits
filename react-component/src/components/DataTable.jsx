@@ -44,7 +44,7 @@ export const DataTable = ({ data }) => {
         header: 'Address',
         Cell: ({ cell }) => {
           const value = cell.getValue();
-          return `${value} ${cell.row.original.zip}`;
+          return `${value || ""} ${cell.row.original.zip || ""}`;
         },
       },
       {
@@ -64,7 +64,7 @@ export const DataTable = ({ data }) => {
         header: 'Permit type',
         Cell: ({ cell }) => {
           const value = cell.getValue();
-          return `${value}, ${cell.row.original.permitdescription}`;
+          return `${value || ""}, ${cell.row.original.permitdescription || ""}`;
         },
       },
       {
@@ -76,7 +76,7 @@ export const DataTable = ({ data }) => {
         header: 'Contractor',
         Cell: ({ cell }) => {
           const value = cell.getValue();
-          return `${value}, ${cell.row.original.contractoraddress1 || ""}`;
+          return `${value || ""}, ${cell.row.original.contractoraddress1 || ""}`;
         },
       },
       {
@@ -90,7 +90,7 @@ export const DataTable = ({ data }) => {
           const value = cell.getValue();
           return (
             <Sliced
-              text={`${value}, \n \n ${cell.row.original.approvedscopeofwork}`}
+              text={`${value || ""}, \n \n ${cell.row.original.approvedscopeofwork || ""}`}
               maxLength={50}
             />
           );
