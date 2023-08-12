@@ -159,6 +159,7 @@ export const DataTable = ({ data }) => {
         enablePagination={false}
         initialState={{ density: 'xs' }}
         enableDensityToggle={false}
+        enableColumnResizing={true}
       />
     </div>
   );
