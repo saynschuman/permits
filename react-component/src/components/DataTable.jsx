@@ -76,7 +76,7 @@ export const DataTable = ({ data }) => {
         header: 'Contractor',
         Cell: ({ cell }) => {
           const value = cell.getValue();
-          return `${value}, ${cell.row.original.contractoraddress1}`;
+          return `${value}, ${cell.row.original.contractoraddress1 || ""}`;
         },
       },
       {
