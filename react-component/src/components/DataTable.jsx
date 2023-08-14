@@ -63,9 +63,14 @@ export const DataTable = ({ data }) => {
         accessorKey: 'permittype',
         header: 'Permit type',
         Cell: ({ cell }) => {
+          console.log(cell.row.original);
           const value = cell.getValue();
           return `${value || ''}, ${cell.row.original.permitdescription || ''}`;
         },
+      },
+      {
+        accessorKey: 'typeofwork',
+        header: 'Type of work',
       },
       {
         accessorKey: 'permitdescription',
@@ -77,19 +82,6 @@ export const DataTable = ({ data }) => {
         Cell: ({ cell }) => {
           const value = cell.getValue();
           return `${value || ''}, ${cell.row.original.contractoraddress1 || ''}`;
-        },
-      },
-      {
-        accessorKey: 'typeofwork',
-        header: 'Type of work',
-      },
-      {
-        accessorKey: 'approvedscopeofwork',
-        header: 'Approved Scope of Work',
-        Cell: ({ cell }) => {
-          const value = cell.getValue();
-
-          return <Sliced text={value} maxLength={50} />;
         },
       },
       {
