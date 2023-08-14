@@ -80,10 +80,6 @@ export const DataTable = ({ data }) => {
         },
       },
       {
-        accessorKey: 'contractoraddress1',
-        header: 'Contractor Address',
-      },
-      {
         accessorKey: 'typeofwork',
         header: 'Type of work',
         Cell: ({ cell }) => {
