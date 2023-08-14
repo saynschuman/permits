@@ -44,7 +44,7 @@ export const DataTable = ({ data }) => {
         header: 'Address',
         Cell: ({ cell }) => {
           const value = cell.getValue();
-          return `${value || ''}, ${cell.row.original.zip?.split("-")[0] || ''}`;
+          return `${value || ''}, ${cell.row.original.zip?.split('-')[0] || ''}`;
         },
       },
       {
@@ -82,15 +82,6 @@ export const DataTable = ({ data }) => {
       {
         accessorKey: 'typeofwork',
         header: 'Type of work',
-        Cell: ({ cell }) => {
-          const value = cell.getValue();
-          return (
-            <Sliced
-              text={`${value || ''}, \n \n ${cell.row.original.approvedscopeofwork || ''}`}
-              maxLength={50}
-            />
-          );
-        },
       },
       {
         accessorKey: 'approvedscopeofwork',
