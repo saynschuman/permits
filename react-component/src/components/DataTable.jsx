@@ -44,7 +44,7 @@ export const DataTable = ({ data }) => {
         header: 'Address',
         Cell: ({ cell }) => {
           const value = cell.getValue();
-          return `${value || ''} ${cell.row.original.zip || ''}`;
+          return `${value || ''}, ${cell.row.original.zip?.split("-")[0] || ''}`;
         },
       },
       {
