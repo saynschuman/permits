@@ -73,7 +73,7 @@ export const DataTable = ({ data }) => {
         header: 'Type of work',
       },
       {
-        accessorKey: 'permitdescription',
+        accessorKey: 'approvedscopeofwork',
         header: 'Description of work',
       },
       {
