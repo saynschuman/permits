@@ -63,7 +63,6 @@ export const DataTable = ({ data }) => {
         accessorKey: 'permittype',
         header: 'Permit type',
         Cell: ({ cell }) => {
-          console.log(cell.row.original);
           const value = cell.getValue();
           return `${value || ''}, ${cell.row.original.permitdescription || ''}`;
         },
@@ -75,6 +74,10 @@ export const DataTable = ({ data }) => {
       {
         accessorKey: 'approvedscopeofwork',
         header: 'Description of work',
+        Cell: ({ cell }) => {
+          const value = cell.getValue();
+          return <Sliced text={value} maxLength={50} />;
+        },
       },
       {
         accessorKey: 'contractorname',
