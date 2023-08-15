@@ -92,6 +92,15 @@ export const DataTable = ({ data }) => {
     []
   );
 
+  const uniqueStatuses = useMemo(() => {
+    const allStatuses = data.map((item) => item.status);
+    return ['ALL', ...new Set(allStatuses)];
+  }, [data]);
+
+  const statusOptions = useMemo(() => {
+    return uniqueStatuses.map((status) => ({ value: status, label: status }));
+  }, [uniqueStatuses]);
+
   return (
     <div
       style={{
@@ -120,11 +129,7 @@ export const DataTable = ({ data }) => {
         <div style={{ maxWidth: '300px' }}>
           <Select
             label="Filter by Status"
-            data={[
-              { value: 'ALL', label: 'All' },
-              { value: 'ISSUED', label: 'Issued' },
-              { value: 'COMPLETED', label: 'Completed' },
-            ]}
+            data={statusOptions}
             value={statusFilter}
             onChange={(value) => setStatusFilter(value)}
           />
